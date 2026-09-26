@@ -14,70 +14,78 @@ export default function Button({
 }) {
   const variants = {
     primary: {
-      backgroundColor: theme.colors.primary[600],
+      backgroundColor: '#4f46e5',
       color: '#ffffff',
-      border: '1px solid ' + theme.colors.primary[600],
+      border: '1px solid #4f46e5',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       hover: {
-        backgroundColor: theme.colors.primary[700],
-        borderColor: theme.colors.primary[700]
+        backgroundColor: '#4338ca',
+        borderColor: '#4338ca'
       }
     },
     secondary: {
       backgroundColor: '#ffffff',
-      color: theme.colors.neutral[700],
-      border: '1px solid ' + theme.colors.neutral[300],
+      color: '#334155',
+      border: '1px solid #cbd5e1',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
       hover: {
-        backgroundColor: theme.colors.neutral[50],
-        borderColor: theme.colors.neutral[400]
+        backgroundColor: '#f8fafc',
+        borderColor: '#94a3b8',
+        color: '#0f172a'
       }
     },
     success: {
-      backgroundColor: theme.colors.success[600],
+      backgroundColor: '#16a34a',
       color: '#ffffff',
-      border: '1px solid ' + theme.colors.success[600],
+      border: '1px solid #16a34a',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       hover: {
-        backgroundColor: theme.colors.success[700],
-        borderColor: theme.colors.success[700]
+        backgroundColor: '#15803d',
+        borderColor: '#15803d'
       }
     },
     danger: {
-      backgroundColor: theme.colors.danger[600],
+      backgroundColor: '#dc2626',
       color: '#ffffff',
-      border: '1px solid ' + theme.colors.danger[600],
+      border: '1px solid #dc2626',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       hover: {
-        backgroundColor: theme.colors.danger[700],
-        borderColor: theme.colors.danger[700]
+        backgroundColor: '#b91c1c',
+        borderColor: '#b91c1c'
       }
     },
     ghost: {
       backgroundColor: 'transparent',
-      color: theme.colors.neutral[600],
-      border: 'none',
+      color: '#64748b',
+      border: '1px solid transparent',
       hover: {
-        backgroundColor: theme.colors.neutral[100],
-        color: theme.colors.neutral[700]
+        backgroundColor: '#f1f5f9',
+        color: '#0f172a'
       }
     }
   };
 
   const sizes = {
     sm: {
-      padding: '6px 12px',
-      fontSize: theme.typography.fontSize.sm,
-      fontWeight: theme.typography.fontWeight.medium,
-      minHeight: '32px'
+      padding: '5px 12px',
+      fontSize: '13px',
+      fontWeight: 500,
+      minHeight: '32px',
+      borderRadius: '6px'
     },
     md: {
       padding: '8px 16px',
-      fontSize: theme.typography.fontSize.base,
-      fontWeight: theme.typography.fontWeight.medium,
-      minHeight: '40px'
+      fontSize: '14px',
+      fontWeight: 600,
+      minHeight: '38px',
+      borderRadius: '8px'
     },
     lg: {
-      padding: '12px 24px',
-      fontSize: theme.typography.fontSize.lg,
-      fontWeight: theme.typography.fontWeight.medium,
-      minHeight: '48px'
+      padding: '10px 22px',
+      fontSize: '15px',
+      fontWeight: 600,
+      minHeight: '44px',
+      borderRadius: '8px'
     }
   };
 
@@ -85,11 +93,11 @@ export default function Button({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: theme.spacing.sm,
-    borderRadius: theme.borderRadius.lg,
+    gap: '8px',
+    borderRadius: '8px',
     fontFamily: theme.typography.fontFamily,
     cursor: disabled || loading ? 'not-allowed' : 'pointer',
-    transition: theme.transitions.default,
+    transition: 'all 0.15s ease',
     textDecoration: 'none',
     outline: 'none',
     position: 'relative',

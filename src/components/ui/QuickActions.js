@@ -3,57 +3,60 @@ import { theme } from '../../styles/theme';
 export default function QuickActions({ actions = [], className = '' }) {
   const containerStyles = {
     backgroundColor: '#ffffff',
-    borderRadius: theme.borderRadius.xl,
-    padding: theme.spacing.lg,
-    border: '1px solid ' + theme.colors.neutral[200],
-    marginBottom: theme.spacing.xl
+    borderRadius: 12,
+    padding: '20px 24px',
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.03)',
+    marginBottom: '24px'
   };
 
   const titleStyles = {
-    fontSize: theme.typography.fontSize.base,
-    fontWeight: theme.typography.fontWeight.semibold,
-    color: theme.colors.neutral[800],
-    margin: `0 0 ${theme.spacing.md} 0`,
-    letterSpacing: '-0.2px'
+    fontSize: '15px',
+    fontWeight: 700,
+    color: '#0f172a',
+    margin: '0 0 16px 0',
+    letterSpacing: '-0.015em'
   };
 
   const actionsGridStyles = {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: theme.spacing.md
+    gap: '12px'
   };
 
   const actionCardStyles = {
-    padding: theme.spacing.md,
-    borderRadius: theme.borderRadius.lg,
-    border: '1px solid ' + theme.colors.neutral[200],
+    padding: '14px 16px',
+    borderRadius: 10,
+    border: '1px solid #e2e8f0',
     backgroundColor: '#ffffff',
     cursor: 'pointer',
-    transition: theme.transitions.default,
+    transition: 'all 0.15s ease',
     textAlign: 'left'
   };
 
   const actionTitleStyles = {
-    fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.semibold,
-    color: theme.colors.neutral[800],
-    margin: `0 0 ${theme.spacing.xs} 0`
+    fontSize: '13.5px',
+    fontWeight: 600,
+    color: '#0f172a',
+    margin: '0 0 4px 0'
   };
 
   const actionDescStyles = {
-    fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.neutral[500],
+    fontSize: '12px',
+    color: '#64748b',
     margin: 0,
     lineHeight: 1.4
   };
 
   const handleActionHover = (e, isEntering) => {
     if (isEntering) {
-      e.currentTarget.style.backgroundColor = theme.colors.primary[50];
-      e.currentTarget.style.borderColor = theme.colors.primary[200];
+      e.currentTarget.style.backgroundColor = '#f8fafc';
+      e.currentTarget.style.borderColor = '#c7d2fe';
+      e.currentTarget.style.transform = 'translateY(-1px)';
     } else {
       e.currentTarget.style.backgroundColor = '#ffffff';
-      e.currentTarget.style.borderColor = theme.colors.neutral[200];
+      e.currentTarget.style.borderColor = '#e2e8f0';
+      e.currentTarget.style.transform = 'translateY(0)';
     }
   };
 

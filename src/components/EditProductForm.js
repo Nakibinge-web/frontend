@@ -147,86 +147,86 @@ export default function EditProductForm({ token, product, categories, suppliers,
 
       {/* Row 1: Name + SKU */}
       <div className="product-form-row" style={s.row}>
-        <Field label="Product Name *" error={fieldErrors.name}>
-          <input style={{ ...s.input, borderColor: fieldErrors.name ? '#dc2626' : '#e2e8f0' }} name="name" placeholder="e.g. Paracetamol 500mg"
+        <Field label="Product Name (Required)" error={fieldErrors.name}>
+          <input style={{ ...s.input, borderColor: fieldErrors.name ? '#dc2626' : '#e2e8f0' }} name="name" placeholder="e.g., Memory Foam Mattress Queen, Bedding Sheet King Size"
             value={form.name} onChange={handle} />
         </Field>
-        <Field label="SKU">
-          <input style={s.input} name="sku" placeholder="e.g. MED-001"
+        <Field label="SKU Code">
+          <input style={s.input} name="sku" placeholder="e.g., MAT-QN-001, BED-KG-050"
             value={form.sku} onChange={handle} />
         </Field>
       </div>
 
       {/* Row 2: Barcode + Unit */}
       <div className="product-form-row" style={s.row}>
-        <Field label="Barcode (optional)">
-          <input style={s.input} name="barcode" placeholder="Scan or type barcode"
+        <Field label="Product Barcode (Optional)">
+          <input style={s.input} name="barcode" placeholder="Scan or manually enter barcode"
             value={form.barcode} onChange={handle} />
         </Field>
         <Field label="Unit of Measure" error={fieldErrors.unit}>
           <select style={{ ...s.input, borderColor: fieldErrors.unit ? '#dc2626' : '#e2e8f0' }} name="unit" value={form.unit} onChange={handle}>
-            <option value="">— Select unit —</option>
+            <option value="">— Select measurement unit —</option>
             {UNITS.map(u => <option key={u} value={u}>{u}</option>)}
           </select>
         </Field>
       </div>
 
       {/* Category */}
-      <Field label="Category" error={fieldErrors.category_id}>
+      <Field label="Product Category" error={fieldErrors.category_id}>
         <select style={{ ...s.input, borderColor: fieldErrors.category_id ? '#dc2626' : '#e2e8f0' }} name="category_id" value={form.category_id} onChange={handle}>
-          <option value="">— Select category —</option>
+          <option value="">— Choose from existing categories —</option>
           {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </Field>
 
       {/* Supplier */}
-      <Field label="Supplier (optional)">
+      <Field label="Product Supplier (Optional)">
         <select style={s.input} name="supplier_id" value={form.supplier_id} onChange={handle}>
-          <option value="">— No supplier —</option>
+          <option value="">— No supplier assigned —</option>
           {suppliers.map(sup => <option key={sup.id} value={sup.id}>{sup.name}</option>)}
         </select>
       </Field>
 
       {/* Row 3: Qty + Reorder */}
       <div className="product-form-row" style={s.row}>
-        <Field label="Quantity *" error={fieldErrors.stock}>
+        <Field label="Current Stock Quantity (Required)" error={fieldErrors.stock}>
           <input style={{ ...s.input, borderColor: fieldErrors.stock ? '#dc2626' : '#e2e8f0' }} name="stock" type="number" min="0"
-            placeholder="0" value={form.stock} onChange={handle} />
+            placeholder="Current stock quantity" value={form.stock} onChange={handle} />
         </Field>
-        <Field label="Reorder Level">
+        <Field label="Low Stock Alert Level">
           <input style={s.input} name="reorder_level" type="number" min="0"
-            placeholder="0" value={form.reorder_level} onChange={handle} />
+            placeholder="e.g., 5 (alert when stock is below this)" value={form.reorder_level} onChange={handle} />
         </Field>
       </div>
 
       {/* Row 4: Cost + Selling price */}
       <div className="product-form-row" style={s.row}>
-        <Field label="Cost Price">
+        <Field label="Purchase Cost Price (UGX)">
           <input style={s.input} name="cost_price" type="number" step="0.01" min="0"
-            placeholder="0.00" value={form.cost_price} onChange={handle} />
+            placeholder="What you paid to acquire it" value={form.cost_price} onChange={handle} />
         </Field>
-        <Field label="Selling Price *" error={fieldErrors.price}>
+        <Field label="Selling Price (Required)" error={fieldErrors.price}>
           <input style={{ ...s.input, borderColor: fieldErrors.price ? '#dc2626' : '#e2e8f0' }} name="price" type="number" step="0.01" min="0"
-            placeholder="0.00" value={form.price} onChange={handle} />
+            placeholder="Customer retail price in UGX" value={form.price} onChange={handle} />
         </Field>
       </div>
 
       {/* Description */}
-      <Field label="Description">
+      <Field label="Product Description (Optional)">
         <textarea style={{ ...s.input, minHeight: 72, resize: 'vertical' }}
-          name="description" placeholder="Optional product description…"
+          name="description" placeholder="e.g., 12-inch memory foam with cooling gel, hypoallergenic cover"
           value={form.description} onChange={handle} />
       </Field>
 
       {/* Product image */}
-      <Field label="Product Image (optional)">
+      <Field label="Product Photo (Optional)">
         <div style={s.imageArea} onClick={() => fileRef.current.click()}>
           {preview
             ? <img src={preview} alt="preview" style={s.imagePreview} />
             : <div style={s.imagePlaceholder}>
                 <span style={{ fontSize: '2rem' }}>🖼️</span>
-                <span style={s.imageHint}>Click to upload image</span>
-                <span style={s.imageHint2}>PNG, JPG up to 2 MB</span>
+                <span style={s.imageHint}>Click to upload product photo</span>
+                <span style={s.imageHint2}>PNG, JPG format, maximum 2 MB</span>
               </div>
           }
         </div>
@@ -235,7 +235,7 @@ export default function EditProductForm({ token, product, categories, suppliers,
         {preview && (
           <button type="button" style={s.removeImg}
             onClick={() => { setImage(null); setPreview(null); }}>
-            ✕ Remove image
+            ✕ Remove photo
           </button>
         )}
       </Field>
@@ -248,19 +248,19 @@ export default function EditProductForm({ token, product, categories, suppliers,
         <input type="checkbox" name="track_expiry" checked={form.track_expiry}
           onChange={handle} style={{ display: 'none' }} />
         <div>
-          <div style={s.toggleLabel}>Track Expiry Date for this Product</div>
-          <div style={s.toggleSub}>Enable to record and monitor expiry dates on stock entries</div>
+          <div style={s.toggleLabel}>Track Warranty/Expiry Date for this Product</div>
+          <div style={s.toggleSub}>Enable if product has warranty period or expiration date</div>
         </div>
       </label>
 
       {form.track_expiry && (
         <div style={s.expiryBox}>
           <div className="product-form-row" style={s.row}>
-            <Field label="Manufacture Date">
+            <Field label="Manufacture Date (Optional)">
               <input style={s.input} name="manufacture_date" type="date"
                 value={form.manufacture_date} onChange={handle} />
             </Field>
-            <Field label="Expiry Date *">
+            <Field label="Warranty/Expiry Date (Required)">
               <input style={s.input} name="expiry_date" type="date"
                 value={form.expiry_date} onChange={handle}
                 min={form.manufacture_date || undefined} required />

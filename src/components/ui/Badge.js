@@ -8,47 +8,50 @@ export default function Badge({
 }) {
   const variants = {
     primary: {
-      backgroundColor: theme.colors.primary[100],
-      color: theme.colors.primary[700],
-      border: '1px solid ' + theme.colors.primary[200]
+      backgroundColor: '#eef2ff',
+      color: '#4338ca',
+      border: '1px solid #c7d2fe'
     },
     success: {
-      backgroundColor: theme.colors.success[100],
-      color: theme.colors.success[700],
-      border: '1px solid ' + theme.colors.success[200]
+      backgroundColor: '#ecfdf5',
+      color: '#047857',
+      border: '1px solid #a7f3d0'
     },
     warning: {
-      backgroundColor: theme.colors.warning[100],
-      color: theme.colors.warning[700],
-      border: '1px solid ' + theme.colors.warning[200]
+      backgroundColor: '#fffbeb',
+      color: '#b45309',
+      border: '1px solid #fde68a'
     },
     danger: {
-      backgroundColor: theme.colors.danger[100],
-      color: theme.colors.danger[700],
-      border: '1px solid ' + theme.colors.danger[200]
+      backgroundColor: '#fef2f2',
+      color: '#b91c1c',
+      border: '1px solid #fecaca'
     },
     neutral: {
-      backgroundColor: theme.colors.neutral[100],
-      color: theme.colors.neutral[700],
-      border: '1px solid ' + theme.colors.neutral[200]
+      backgroundColor: '#f1f5f9',
+      color: '#475569',
+      border: '1px solid #e2e8f0'
     }
   };
 
   const sizes = {
     sm: {
       padding: '2px 8px',
-      fontSize: theme.typography.fontSize.xs,
-      fontWeight: theme.typography.fontWeight.medium
+      fontSize: '11px',
+      fontWeight: 600,
+      letterSpacing: '0.01em'
     },
     md: {
-      padding: '4px 12px',
-      fontSize: theme.typography.fontSize.sm,
-      fontWeight: theme.typography.fontWeight.medium
+      padding: '3px 10px',
+      fontSize: '12px',
+      fontWeight: 600,
+      letterSpacing: '0.01em'
     },
     lg: {
-      padding: '6px 16px',
-      fontSize: theme.typography.fontSize.base,
-      fontWeight: theme.typography.fontWeight.medium
+      padding: '5px 14px',
+      fontSize: '13px',
+      fontWeight: 600,
+      letterSpacing: '0.01em'
     }
   };
 

@@ -20,37 +20,37 @@ export default function DataTable({
   const tableStyles = {
     width: '100%',
     backgroundColor: '#ffffff',
-    borderRadius: theme.borderRadius.xl,
+    borderRadius: 12,
     overflow: 'hidden',
-    boxShadow: theme.shadows.md,
-    border: '1px solid ' + theme.colors.neutral[200]
+    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.03)',
+    border: '1px solid #e2e8f0'
   };
 
   const headerStyles = {
-    backgroundColor: theme.colors.neutral[50],
-    borderBottom: '1px solid ' + theme.colors.neutral[200]
+    backgroundColor: '#f8fafc',
+    borderBottom: '1px solid #e2e8f0'
   };
 
   const headerCellStyles = {
-    padding: theme.spacing.lg,
-    fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.semibold,
-    color: theme.colors.neutral[700],
+    padding: '12px 18px',
+    fontSize: '11px',
+    fontWeight: 700,
+    color: '#64748b',
     textAlign: 'left',
     textTransform: 'uppercase',
-    letterSpacing: '0.5px'
+    letterSpacing: '0.06em'
   };
 
   const rowStyles = {
-    borderBottom: '1px solid ' + theme.colors.neutral[100],
-    transition: theme.transitions.fast,
+    borderBottom: '1px solid #f1f5f9',
+    transition: 'background-color 0.15s ease',
     cursor: onRowClick ? 'pointer' : 'default'
   };
 
   const cellStyles = {
-    padding: theme.spacing.lg,
-    fontSize: theme.typography.fontSize.sm,
-    color: theme.colors.neutral[700],
+    padding: '14px 18px',
+    fontSize: '13.5px',
+    color: '#334155',
     verticalAlign: 'middle'
   };
 
@@ -122,16 +122,15 @@ export default function DataTable({
   return (
     <div style={tableStyles} className={className}>
       {/* Desktop table — hidden on mobile via CSS */}
-      <div className="table-scroll">
+      <div className="dt-desktop-table table-scroll">
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 480 }}>
           <thead style={headerStyles}>
-            <tr>{columns.map((col, i) => <th key={i} style={headerCellStyles} className="dt-table-row">{col.title}</th>)}</tr>
+            <tr>{columns.map((col, i) => <th key={i} style={headerCellStyles}>{col.title}</th>)}</tr>
           </thead>
           <tbody>
             {paged.map((row, rowIndex) => (
               <tr
                 key={row.id || rowIndex}
-                className="dt-table-row"
                 style={{ ...rowStyles, backgroundColor: rowIndex % 2 === 0 ? 'transparent' : theme.colors.neutral[25] }}
                 onMouseEnter={(e) => handleRowHover(e, true)}
                 onMouseLeave={(e) => handleRowHover(e, false)}
@@ -145,7 +144,7 @@ export default function DataTable({
       </div>
 
       {/* Mobile card rows — hidden on desktop via CSS */}
-      <div>
+      <div className="dt-mobile-cards">
         {paged.map((row, rowIndex) => (
           <div
             key={`card-${row.id || rowIndex}`}
@@ -197,7 +196,7 @@ function PaginationBar({ total, page, pageSize, onPageChange }) {
   });
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderTop: '1px solid #f1f5f9', background: '#fafbff' }}>
+    <div className="pagination-bar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderTop: '1px solid #f1f5f9', background: '#fafbff' }}>
       <span style={{ fontSize: 13, color: '#64748b' }}>Showing <strong>{from}–{to}</strong> of <strong>{total}</strong></span>
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         <button style={{ ...btn(false), opacity: page === 1 ? 0.4 : 1 }} onClick={() => onPageChange(page - 1)} disabled={page === 1}>‹</button>

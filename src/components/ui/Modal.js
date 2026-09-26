@@ -22,7 +22,9 @@ export default function Modal({
   const overlayStyles = {
     position: 'fixed',
     top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -34,53 +36,56 @@ export default function Modal({
 
   const modalStyles = {
     backgroundColor: '#ffffff',
-    borderRadius: theme.borderRadius['2xl'],
-    boxShadow: theme.shadows.xl,
+    borderRadius: 14,
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
     width: '100%',
     maxHeight: '90vh',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
     animation: 'slideIn 0.2s ease-out',
-    ...(maxWidth ? { maxWidth } : sizes[size])
+    ...sizes[size],
+    ...(maxWidth ? { maxWidth } : {})
   };
 
   const headerStyles = {
-    padding: `12px ${theme.spacing.xl}`,
-    borderBottom: '1px solid ' + theme.colors.neutral[200],
+    padding: '16px 24px',
+    borderBottom: '1px solid #e2e8f0',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexShrink: 0,
-    minHeight: 60,
+    minHeight: 56,
   };
 
   const titleStyles = {
-    fontSize: theme.typography.fontSize.xl,
-    fontWeight: theme.typography.fontWeight.semibold,
-    color: theme.colors.neutral[900],
+    fontSize: '18px',
+    fontWeight: 700,
+    color: '#0f172a',
+    letterSpacing: '-0.015em',
     margin: 0,
   };
 
   const closeButtonStyles = {
     background: 'none',
     border: 'none',
-    fontSize: '24px',
+    fontSize: '20px',
     cursor: 'pointer',
-    color: theme.colors.neutral[400],
+    color: '#64748b',
     padding: '6px',
-    borderRadius: theme.borderRadius.md,
-    transition: theme.transitions.default,
+    borderRadius: '8px',
+    transition: 'all 0.15s ease',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '44px',
-    height: '44px',
+    width: '36px',
+    height: '36px',
     flexShrink: 0,
   };
 
   const contentStyles = {
-    padding: theme.spacing.xl,
+    padding: '24px',
     flex: 1,
     overflow: 'auto',
     WebkitOverflowScrolling: 'touch',
@@ -88,12 +93,13 @@ export default function Modal({
   };
 
   const footerStyles = {
-    padding: theme.spacing.xl,
-    borderTop: '1px solid ' + theme.colors.neutral[200],
+    padding: '16px 24px',
+    borderTop: '1px solid #e2e8f0',
+    backgroundColor: '#f8fafc',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    gap: theme.spacing.md,
+    gap: '12px',
     flexShrink: 0,
   };
 
@@ -110,7 +116,7 @@ export default function Modal({
     <div style={overlayStyles} className="modal-overlay-responsive" onClick={handleOverlayClick}>
       <div style={modalStyles} className={`modal-responsive ${className}`}>
         {title && (
-          <div style={headerStyles}>
+          <div style={headerStyles} className="modal-header-responsive">
             <h2 style={titleStyles}>{title}</h2>
             <button
               style={closeButtonStyles}
@@ -123,11 +129,11 @@ export default function Modal({
             </button>
           </div>
         )}
-        <div style={contentStyles}>
+        <div style={contentStyles} className="modal-content-responsive">
           {children}
         </div>
         {footer && (
-          <div style={footerStyles}>
+          <div style={footerStyles} className="modal-footer-responsive">
             {footer}
           </div>
         )}
