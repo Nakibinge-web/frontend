@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from '../components/ui/Button';
-import Modal from '../components/ui/Modal';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
@@ -23,14 +22,11 @@ export default function Settings({ user, token, toast, onBusinessInfoUpdate }) {
     address: ''
   });
 
-  useEffect(() => {
-    fetchBusinessInfo();
-  }, []);
-
-  const fetchBusinessInfo = async () => {
+  const fetchBusinessInfo = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API}/settings/business?tenant_id=${user.tenant_id}`, {
+      const tenantId = user?.tenant_id;
+      const response = await fetch(`${API}/settings/business?tenant_id=${tenantId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -57,7 +53,11 @@ export default function Settings({ user, token, toast, onBusinessInfoUpdate }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.tenant_id, token, toast]);
+
+  useEffect(() => {
+    fetchBusinessInfo();
+  }, [fetchBusinessInfo]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

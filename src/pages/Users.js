@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { usePagination, InlinePager } from '../components/ui/Pagination';
 import EmptyState from '../components/ui/EmptyState';
 import Button from '../components/ui/Button';
@@ -111,9 +111,9 @@ function CustomRolePermissionEditor({ permissions, selectedIds, onChange, roleNa
 }
 
 
-function UsersTab({ token, user: currentUser, toast, canCreate = false, canEdit = false, canDelete = false, canViewRoles = false }) {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
+function UsersTab({ token, user: currentUser, toast, canCreate = false, canEdit = false, canDelete = false, canViewRoles = false }) {
   const EMPTY_FORM = {
     name: '', email: '', password: '',
     role_ids: [],
@@ -138,7 +138,11 @@ function UsersTab({ token, user: currentUser, toast, canCreate = false, canEdit 
   const [search, setSearch] = useState('');
   const [loadingUserDetail, setLoadingUserDetail] = useState(false);
 
-  const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Accept: 'application/json' };
+  const headers = useMemo(() => ({
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  }), [token]);
 
   const isOwner = currentUser.roles?.some(r => r.name === 'owner');
 
@@ -161,7 +165,7 @@ function UsersTab({ token, user: currentUser, toast, canCreate = false, canEdit 
       finally { setLoading(false); }
     };
     load();
-  }, [token]);
+  }, [headers]);
 
   const openAdd = () => {
     setEditTarget(null);

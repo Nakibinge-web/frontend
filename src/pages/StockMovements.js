@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import EmptyState from '../components/ui/EmptyState';
 import styles, { fS } from '../styles/dashboardStyles';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 function StockMovementsTab({ token, products, canCreate = true }) {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
-  const headers = { Authorization: `Bearer ${token}`, Accept: 'application/json' };
+  const headers = useMemo(() => ({
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/json'
+  }), [token]);
 
   const [movements, setMovements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +37,7 @@ function StockMovementsTab({ token, products, canCreate = true }) {
       finally { setLoading(false); }
     };
     load();
-  }, [token]);
+  }, [headers]);
 
   const adjTypeDescriptions = {
     IN: 'Adds quantity to current stock.',

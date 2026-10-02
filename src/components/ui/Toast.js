@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 
 // ── Toast Item ────────────────────────────────────────────────────────────────
 function ToastItem({ toast, onRemove }) {
@@ -73,12 +73,12 @@ export function useToast() {
     setToasts(prev => [...prev, { id, type, title, message, duration }]);
   }, []);
 
-  const toast = {
+  const toast = useMemo(() => ({
     success: (title, message, duration) => add('success', title, message, duration),
     error:   (title, message, duration) => add('error',   title, message, duration),
     warning: (title, message, duration) => add('warning', title, message, duration),
     info:    (title, message, duration) => add('info',    title, message, duration),
-  };
+  }), [add]);
 
   return { toasts, toast, remove };
 }

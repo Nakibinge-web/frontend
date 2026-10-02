@@ -1,5 +1,3 @@
-import { theme } from '../../styles/theme';
-
 export default function QuickActions({ actions = [], className = '' }) {
   const containerStyles = {
     backgroundColor: '#ffffff',

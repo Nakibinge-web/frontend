@@ -25,8 +25,10 @@ export const createHeaders = (token, includeContentType = true) => {
   return headers;
 };
 
-export default {
+const apiConfig = {
   API_URL,
   API_BASE_URL,
   createHeaders,
 };
+
+export default apiConfig;
