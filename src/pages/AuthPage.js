@@ -83,9 +83,17 @@ function PasswordField({ name, label, placeholder, value, onChange, showStrength
   );
 }
 
+/* ── Helper to determine mode from pathname ── */
+function getPathMode() {
+  if (typeof window === 'undefined') return 'login';
+  const rawPath = window.location.pathname.replace(/[\\/]+/g, '/').toLowerCase();
+  if (rawPath === '/register' || rawPath.startsWith('/register/')) return 'register';
+  return 'login';
+}
+
 /* ── Main Auth Page ── */
 export default function AuthPage() {
-  const [mode, setMode] = useState('login');
+  const [mode, setMode] = useState(getPathMode);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -101,8 +109,17 @@ export default function AuthPage() {
   const logoInputRef = useRef(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const u = localStorage.getItem('user');
+      return u ? JSON.parse(u) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem('token') || null;
+  });
 
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -192,6 +209,9 @@ export default function AuthPage() {
         setToken(data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('token', data.token);
+        const savedRedirect = sessionStorage.getItem('redirect_after_login') || '/overview';
+        sessionStorage.removeItem('redirect_after_login');
+        window.history.pushState(null, '', savedRedirect);
       }
     } catch {
       setError('Could not reach the server. Please verify the backend is running.');
@@ -217,36 +237,64 @@ export default function AuthPage() {
     setLogoPreview(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    window.history.pushState(null, '', '/login');
+    setMode('login');
   };
 
   const switchMode = newMode => {
     setMode(newMode);
     setError(null);
+    const target = newMode === 'register' ? '/register' : '/login';
+    if (window.location.pathname !== target) {
+      window.history.pushState(null, '', target);
+    }
   };
 
   useEffect(() => {
-    const u = localStorage.getItem('user');
-    const t = localStorage.getItem('token');
-    if (u && t) {
-      try {
-        setUser(JSON.parse(u));
-        setToken(t);
-        fetch(`${API}/users/me`, {
-          headers: { 'Authorization': `Bearer ${t}`, 'Accept': 'application/json' },
+    const handlePopState = () => {
+      const newMode = getPathMode();
+      setMode(newMode);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const rawPath = window.location.pathname.replace(/[\\/]+/g, '/');
+    const path = rawPath.toLowerCase();
+
+    if (user && token) {
+      if (path === '/login' || path.startsWith('/login/') || path === '/register' || path.startsWith('/register/')) {
+        window.history.replaceState(null, '', '/overview');
+      }
+      fetch(`${API}/users/me`, {
+        headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' },
+      })
+        .then(r => (r.ok ? r.json() : null))
+        .then(data => {
+          if (data?.data) {
+            setUser(data.data);
+            localStorage.setItem('user', JSON.stringify(data.data));
+          }
         })
-          .then(r => (r.ok ? r.json() : null))
-          .then(data => {
-            if (data?.data) {
-              setUser(data.data);
-              localStorage.setItem('user', JSON.stringify(data.data));
-            }
-          })
-          .catch(() => {});
-      } catch {
-        localStorage.clear();
+        .catch(() => {});
+    } else {
+      if (path === '/register' || path.startsWith('/register/')) {
+        if (window.location.pathname !== '/register') {
+          window.history.replaceState(null, '', '/register');
+        }
+        setMode('register');
+      } else {
+        if (path !== '/login' && path !== '/' && !path.startsWith('/login')) {
+          sessionStorage.setItem('redirect_after_login', window.location.pathname);
+        }
+        if (window.location.pathname !== '/login') {
+          window.history.replaceState(null, '', '/login');
+        }
+        setMode('login');
       }
     }
-  }, []);
+  }, [user, token]);
 
   if (user && token) return <Dashboard user={user} token={token} onLogout={logout} onUserUpdate={setUser} />;
 
